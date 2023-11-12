@@ -1,18 +1,38 @@
+#include <Servo.h>
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+// define servo
+Servo myServo;
+
+// define pins
+const int servoPin = 9;
+const int potPin = A0;
+
+// define variables
+int potVal;
+int angle;
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  // consigure servo
+  myServo.attach(servoPin);
+
+  // configure serial
+  Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  // read potentiometer
+  potVal = analogRead(potPin);
+  Serial.println("potVal: " + String(potVal));
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  // map potentiometer value to servo angle
+  angle = map(potVal, 0, 1023, 0, 179);
+  Serial.println("angle: " + String(angle));
+
+  // move servo
+  myServo.write(angle);
+
+  // wait
+  delay(100);
 }
