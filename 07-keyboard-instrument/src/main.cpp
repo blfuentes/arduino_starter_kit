@@ -1,18 +1,35 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+const int keyPin = A0;
+const int buzzPin = 8;
+
+int keyVal;
+int notes[] = { 262, 294, 330, 349 };
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  // configure pin modes and serial communication
+  pinMode(keyPin, INPUT);
+  pinMode(buzzPin, OUTPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  // read the key value
+  keyVal = analogRead(keyPin);
+  Serial.println(keyVal);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  // play the note
+  if (keyVal == 1023) {
+    tone(buzzPin, notes[0]);
+  } else if (keyVal >= 990 && keyVal <= 1010) {
+    tone(buzzPin, notes[1]);
+  } else if (keyVal >= 505 && keyVal <= 515) {
+    tone(buzzPin, notes[2]);
+  } else if (keyVal >= 5 && keyVal <= 10) {
+    tone(buzzPin, notes[3]);
+  } else {
+    noTone(buzzPin);
+  }
+
+  delay(10);
 }
