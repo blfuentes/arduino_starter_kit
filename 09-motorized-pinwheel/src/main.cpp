@@ -1,18 +1,31 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+const int switchPin = 2;
+const int motorPin = 9;
+const int ledPin = 13;
+
+int switchState = 0;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-}
+  pinMode(motorPin, OUTPUT);
+  pinMode(switchPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+
+  Serial.begin(9600);
+} 
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  switchState = digitalRead(switchPin);
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  if (switchState == HIGH) {
+    digitalWrite(motorPin, HIGH);
+    Serial.println("Motor is on");
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(motorPin, LOW);
+    Serial.println("Motor is off");
+    digitalWrite(ledPin, LOW);
+  }
+
+  // delay(500);
 }
