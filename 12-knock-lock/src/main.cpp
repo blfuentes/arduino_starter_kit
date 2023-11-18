@@ -22,6 +22,8 @@ int switchVal;
 boolean locked = false;
 int numberOfKnocks = 0;
 
+boolean checkForKnock(int value);
+
 void setup()
 {
   // attach the servo
@@ -39,7 +41,7 @@ void setup()
   // move the servo to the unlocked position
   digitalWrite(greenLedPin, HIGH);
   myServo.write(0);
-  Serial.println("the box is unlocked");
+  Serial.println("the box is unlocked!");
 }
 
 void loop()
@@ -53,7 +55,7 @@ void loop()
       digitalWrite(greenLedPin, LOW);
       digitalWrite(redLedPin, HIGH);
       myServo.write(90);
-      Serial.println("the box is locked");
+      Serial.println("the box is locked!");
       delay(1000);
     }
   }
@@ -80,6 +82,7 @@ void loop()
       digitalWrite(redLedPin, LOW);
 
       Serial.println("the box is unlocked");
+      numberOfKnocks = 0;
     }
   }
 }
@@ -92,7 +95,7 @@ boolean checkForKnock(int value)
     delay(50);
     digitalWrite(yellowLedPin, LOW);
 
-    Serial.println("Validad knock of value " + String(value));
+    Serial.println("Valid knock of value " + String(value));
 
     return true;
   }
